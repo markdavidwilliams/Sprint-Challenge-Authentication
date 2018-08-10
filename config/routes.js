@@ -1,6 +1,8 @@
 const axios = require('axios');
+const bycrypt = require('bcryptjs');
 
-const { authenticate } = require('./middlewares');
+const db = require('../database/dbConfig');
+const { authenticate, generateToken } = require('./middlewares');
 
 module.exports = server => {
   server.post('/api/register', register);
@@ -10,10 +12,44 @@ module.exports = server => {
 
 function register(req, res) {
   // implement user registration
+  const user = req.body;
+  const hash = bycrypt.hashSync(user.password, 14);
+  user.password = hash;
+  db('users')
+    .insert(user)
+    .then(response => {
+      const token = generateToken(response);
+      res
+        .status(201)
+        .send(token)
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json(err)
+    })
 }
 
 function login(req, res) {
   // implement user login
+  const credentials = req.body;
+  const username = credentials.username;
+  db('users')
+    .where({ username })
+    .first()
+    .then(response => {
+      const passwordMatch = bycrypt.compareSync(credentials.password, response.password);
+      if (passwordMatch) {
+        const token = generateToken(response)
+        res
+          .status(200)
+          .send(token)
+      } else {
+        res
+          .status(401)
+          .json({ error: 'Incorrect Credentials' })
+      }
+    })
 }
 
 function getJokes(req, res) {
