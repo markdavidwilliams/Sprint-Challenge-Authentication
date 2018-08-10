@@ -10,7 +10,7 @@ module.exports = server => {
   server.get('/api/jokes', authenticate, getJokes);
 };
 
-function register(req, res) {
+function register(req, res) { // creates user object, grabs password and hashes it before inserting into database
   // implement user registration
   const user = req.body;
   const hash = bycrypt.hashSync(user.password, 14);
@@ -30,7 +30,7 @@ function register(req, res) {
     })
 }
 
-function login(req, res) {
+function login(req, res) { // verifies password and generates login token
   // implement user login
   const credentials = req.body;
   const username = credentials.username;

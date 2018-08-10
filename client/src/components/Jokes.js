@@ -10,33 +10,33 @@ class Jokes extends Component {
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); // check if token exists
     const URL = 'http://localhost:5000/api/jokes';
     if (token) {
       axios
-        .get(URL, { headers: { Authorization: token }})
+        .get(URL, { headers: { Authorization: token }}) // sends up token to server to be verified
         .then(response => {
-          this.setState({ jokes: response.data })
+          this.setState({ jokes: response.data }) // places jokes on state
         })
         .catch(err => console.log(err))
     } else {
-      setTimeout(() => window.location.pathname = '/', 3000)
+      setTimeout(() => window.location.pathname = '/', 3000) // if no token, redirects to login
     }
   }
 
   logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token'); // removes token 
   }
 
-  render() {
+  render() { // redirects if no token, logout removes token and redirects to login, displays jokes once token validated
     return(
       <Fragment>
         {!localStorage.getItem('token') ? (
           <p>You are not logged in. Redirecting...</p>
         ) : (
           <Fragment>
-            <Link to='/'>
-              <button type='button' className='logout' onClick={this.logout}>
+            <Link to='/'> 
+              <button type='button' className='logout' onClick={this.logout}> 
                 Logout
               </button>
             </Link>

@@ -13,7 +13,7 @@ class Register extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  registerUser = event => {
+  registerUser = event => { // checks to make sure password is consistent and sends up user object to server, if no error places response token in local storage, redirects to jokes
     event.preventDefault();
     if(this.state.password !== this.state.confirmPassword) {
       return this.setState({ password: '', confirmPassword: '' })

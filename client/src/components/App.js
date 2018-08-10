@@ -7,7 +7,7 @@ import Jokes from './Jokes';
 
 import './App.css';
 
-const App = () => {
+const App = () => { // handles routing
     return (
       <Router>
         <div className="App">

@@ -12,7 +12,7 @@ class Login extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = event => {
+  handleSubmit = event => { // sends up username and password then sets token on localstorage if credentials are valid, redirects to jokes
     event.preventDefault();
     const URL = 'http://localhost:5000/api/login';
     const login = { ...this.state };
