@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import './Jokes.css';
+
 class Jokes extends Component {
   state = {
     jokes: [],
